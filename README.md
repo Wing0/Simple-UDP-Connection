@@ -8,11 +8,13 @@ A simple ready-to-use python script to communicate between any two computers via
 Initialize sender and receiver:
 
 	# Sender:
+	from udp_connection import UDPConnection
 	udp = UDPConnection(TARGET_IP='127.0.0.1')
 
 Alternative:
 
 	# Sender:
+	from udp_connection import UDPConnection
 	udp = UDPConnection(TARGET_IP='yourcomputer')
 	
 Where you insert the receiver machine IP address to the `TARGET_IP`. Alternatively, you can use the hostname.
@@ -20,6 +22,7 @@ Where you insert the receiver machine IP address to the `TARGET_IP`. Alternative
 Initialize the receiver:
 
 	# Receiver:
+	from udp_connection import UDPConnection
 	udp = UDPConnection(TARGET_IP='mycomputer')
 	
 You can also use the IP address as before.
