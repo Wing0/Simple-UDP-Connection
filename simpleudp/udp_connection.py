@@ -60,13 +60,21 @@ class UDPConnection(object):
         if self.TARGET_IP is not None:
             self.initialized = True
 
-    def query_message(self):
+    def query_message(self, timeout=None):
         '''
         Waits until the next message, sends a confirmation and returns the
         received unJSONed message. In case it is an 'initialize' message,
         the sender address is saved to TARGET_IP.
+        @params:
+        - timeout: integer, time in seconds that the query message will wait
         '''
-        msg, addr = self.sock.recvfrom(1024)
+        self.sock.settimeout(timeout)
+        try:
+            msg, addr = self.sock.recvfrom(1024)
+        except socket.timeout:
+            return False
+        finally:
+            self.sock.settimeout(None)
         msg = json.loads(msg)
         if msg['status'] is None:
             print 'Got message: %s from address: %s' % (msg, addr)
