@@ -43,7 +43,8 @@ class UDPConnection(object):
     This transaction is confirmed by automatic message 'initialization
     complete'.
     """
-    def __init__(self, TARGET_IP=None, TARGET_PORT=5005, UDP_PORT=5005):
+    initialized = False
+
     def __init__(
             self, TARGET_IP=None, UDP_IP=None,
             TARGET_PORT=5005, UDP_PORT=5005):
@@ -56,6 +57,8 @@ class UDPConnection(object):
         else:
             self.sock.bind((UDP_IP, 5005))
         self.target = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        if self.TARGET_IP is not None:
+            self.initialized = True
 
     def query_message(self):
         '''
@@ -69,6 +72,7 @@ class UDPConnection(object):
             print 'Got message: %s from address: %s' % (msg, addr)
             if msg['message'] == 'initialize' and self.TARGET_IP is None:
                 self.TARGET_IP = addr[0]
+                self.initialized = True
                 self.send_message('initialization complete', True)
                 print 'Remote initialization done'
             else:
