@@ -44,11 +44,17 @@ class UDPConnection(object):
     complete'.
     """
     def __init__(self, TARGET_IP=None, TARGET_PORT=5005, UDP_PORT=5005):
+    def __init__(
+            self, TARGET_IP=None, UDP_IP=None,
+            TARGET_PORT=5005, UDP_PORT=5005):
         super(UDPConnection, self).__init__()
         self.TARGET_IP = TARGET_IP
         self.TARGET_PORT = TARGET_PORT
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind((socket.gethostbyname(socket.gethostname()), 5005))
+        if UDP_IP is None:
+            self.sock.bind((socket.gethostbyname(socket.gethostname()), 5005))
+        else:
+            self.sock.bind((UDP_IP, 5005))
         self.target = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     def query_message(self):
