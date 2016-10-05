@@ -109,8 +109,9 @@ class UDPConnection(object):
                 (self.TARGET_IP, self.TARGET_PORT))
             if ok is None:
                 try:
-                    self.sock.settimeout(10)
-                    response = self.query_message()['status']
+                    response = self.query_message(10)
+                    response = response['status'] if (
+                        response is not False) else False
                     return response
                 except socket.timeout:
                     return False
