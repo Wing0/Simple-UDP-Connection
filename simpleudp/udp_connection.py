@@ -78,7 +78,7 @@ class UDPConnection(object):
         msg = json.loads(msg)
         if msg['status'] is None:
             print 'Got message: %s from address: %s' % (msg, addr)
-            if msg['message'] == 'initialize' and self.TARGET_IP is None:
+            if msg['message'] == 'initialize':
                 self.TARGET_IP = addr[0]
                 self.initialized = True
                 self.send_message('initialization complete', True)
